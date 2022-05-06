@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import MarkerRender from '../../components/home/common/MarkerRender';
 
 function useMap() {
-  const mapRef = useRef<HTMLElement | null | any>(null);
-  const markerRef = useRef<any | null>(null);
   const [myLocation, setMyLocation] = useState<
     | {
         latitude: number;
@@ -30,18 +29,24 @@ function useMap() {
 
   useEffect(() => {
     if (typeof myLocation !== 'string') {
-      mapRef.current = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(
-          myLocation.latitude,
-          myLocation.longitude
-        ),
+      // 현재 위치 추적
+      const currentPosition = [myLocation.latitude, myLocation.longitude];
+
+      // Naver Map 생성
+      const map = new naver.maps.Map('map', {
+        center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
         zoomControl: true,
       });
+
+      // Marker 찍기
+      const marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
+        map,
+      });
     }
-  }, [mapRef, myLocation]);
+  }, [myLocation]);
 
   return {
-    mapRef,
     myLocation,
   };
 }

@@ -1,9 +1,8 @@
-import React, { MutableRefObject } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 import useMedia from '../../libs/hooks/common/useMedia';
 
 interface Props {
-  mapRef: MutableRefObject<any>;
   myLocation:
     | string
     | {
@@ -12,7 +11,7 @@ interface Props {
       };
 }
 
-const NaverMap: React.FC<Props> = ({ mapRef, myLocation }) => {
+const NaverMap: React.FC<Props> = ({ myLocation }) => {
   const isSmall = useMedia('(max-width: 768px)');
 
   return <Container id="map" small={isSmall}></Container>;
@@ -22,6 +21,11 @@ const NaverMap: React.FC<Props> = ({ mapRef, myLocation }) => {
 const Container = styled.div<{ small: boolean | undefined }>`
   width: 100%;
   height: calc(100vh - 64px);
+
+  .my {
+    font-weight: bold;
+    color: #ff0000;
+  }
 
   ${(props) =>
     props.small &&

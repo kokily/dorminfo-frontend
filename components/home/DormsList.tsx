@@ -37,7 +37,9 @@ const DormsList: React.FC<Props> = ({
       </span>
     </Notice>
 
-    <ContentBox>목록 들어갈 곳</ContentBox>
+    <ContentBox>
+      <h3>목록 들어갈 곳</h3>
+    </ContentBox>
   </Container>
 );
 

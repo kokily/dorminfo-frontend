@@ -6,7 +6,7 @@ import useMap from '../libs/hooks/useMap';
 import useSearch from '../libs/hooks/useSearch';
 
 const IndexPage: NextPage = () => {
-  const { mapRef, myLocation } = useMap();
+  const { myLocation } = useMap();
   const { search, onChange, onSearch, onKeyPress } = useSearch();
 
   return (
@@ -20,7 +20,7 @@ const IndexPage: NextPage = () => {
         />
       }
     >
-      <NaverMap mapRef={mapRef} myLocation={myLocation} />
+      <NaverMap myLocation={myLocation} />
     </PageTemplate>
   );
 };
