@@ -10,9 +10,10 @@ interface SmallProps {
 
 interface Props {
   children: React.ReactNode;
+  aside: React.ReactNode;
 }
 
-const PageTemplate: React.FC<Props> = ({ children }) => {
+const PageTemplate: React.FC<Props> = ({ children, aside }) => {
   const isSmall = useMedia('(max-width: 768px)');
 
   return (
@@ -20,7 +21,7 @@ const PageTemplate: React.FC<Props> = ({ children }) => {
       <Header />
       <Main small={isSmall}>
         <Content small={isSmall}>{children}</Content>
-        <Aside />
+        <Aside>{aside}</Aside>
       </Main>
     </Container>
   );
@@ -56,7 +57,6 @@ const Content = styled.div<SmallProps>`
     css`
       min-height: 360px;
     `}
-  background: #c22c27;
 `;
 
 export default PageTemplate;

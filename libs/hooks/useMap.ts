@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 function useMap() {
   const mapRef = useRef<HTMLElement | null | any>(null);
+  const markerRef = useRef<any | null>(null);
   const [myLocation, setMyLocation] = useState<
     | {
         latitude: number;
