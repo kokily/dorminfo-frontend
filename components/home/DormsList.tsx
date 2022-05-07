@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FcSpeaker } from 'react-icons/fc';
 import { BiRightArrow } from 'react-icons/bi';
 import Search from '../common/Search';
+import DormCard from './common/DormCard';
 
 interface Props {
   search: string;
@@ -37,8 +38,27 @@ const DormsList: React.FC<Props> = ({
       </span>
     </Notice>
 
+    <Split>
+      <strong style={{ marginRight: '5px' }}>Dorms</strong> List
+    </Split>
+
     <ContentBox>
-      <h3>목록 들어갈 곳</h3>
+      <DormCard
+        title="컨벤션"
+        distance="100m"
+        address="서울시 용산구 이태원로 22"
+      />
+      <DormCard
+        title="파리바게뜨"
+        distance="125m"
+        address="서울시 용산구 이태원로 22-1"
+      />
+      <DormCard
+        image="/assets/image1.png"
+        title="우리은행"
+        distance="520m"
+        address="서울시 용산구 한강로1가 236-5"
+      />
     </ContentBox>
   </Container>
 );
@@ -61,8 +81,7 @@ const Notice = styled.div`
   align-items: center;
   width: 100%;
   height: 40px;
-  padding-left: 0.6rem;
-  padding-right: 0.6rem;
+  padding: 0.6rem;
   background: #d1fff0;
   margin-bottom: 1rem;
   cursor: pointer;
@@ -86,6 +105,29 @@ const Notice = styled.div`
   }
 `;
 
-const ContentBox = styled.div``;
+const ContentBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
+const Split = styled.div`
+  display: flex;
+  width: 100%;
+  flex-basis: 100%;
+  align-items: center;
+  color: rgba(0, 0, 0.35);
+  margin-bottom: 1.2rem;
+
+  &::after {
+    content: '';
+    flex-grow: 1;
+    height: 1px;
+    background: #7a7a7a;
+    font-size: 0px;
+    line-height: 0px;
+    margin: 0px 16px;
+  }
+`;
 
 export default DormsList;
