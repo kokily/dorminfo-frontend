@@ -49,7 +49,7 @@ const DormsList: React.FC<Props> = ({
         address="서울시 용산구 이태원로 22"
       />
       <DormCard
-        title="파리바게뜨"
+        title="전쟁기념관"
         distance="125m"
         address="서울시 용산구 이태원로 22-1"
       />
