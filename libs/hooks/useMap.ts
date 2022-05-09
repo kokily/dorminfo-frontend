@@ -48,12 +48,6 @@ function useMap() {
         map: mapRef.current,
       });
 
-      naver.maps.Event.addListener(markerRef1, 'click', (e: any) => {
-        console.log('click');
-        const mapLatLng = new naver.maps.LatLng(37.533667, 126.9775863);
-        mapRef.current.PanTo(mapLatLng, e?.coord);
-      });
-
       markerRef2.current = new naver.maps.Marker({
         position: new naver.maps.LatLng(37.5373958, 126.9785121),
         map: mapRef.current,
@@ -62,6 +56,8 @@ function useMap() {
         position: new naver.maps.LatLng(37.5344605, 126.9735552),
         map: mapRef.current,
       });
+
+      console.log(mapRef.current.getBounds());
     }
   }, [myLocation]);
 
