@@ -1,63 +1,45 @@
-import {
-  ChangeEvent,
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useState } from 'react';
+import MarkerRender from '../../components/home/common/MarkerRender';
 
-function useAbout() {
-  const [myLocation, setMyLocation] = useState<
-    | {
-        latitude: number;
-        longitude: number;
-      }
-    | string
-  >('');
-  const [address, setAddress] = useState('');
-  const mapRef = useRef<HTMLElement | null | any>(null);
+interface Props {
+  latitude: number;
+  longitude: number;
+}
 
-  const onChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setAddress(e.target.value);
-    },
-    [address]
-  );
-
-  const onSubmit = useCallback((e: MouseEvent) => {
-    // @ts-ignore
-    naver.maps.Service.geocode({ address: address }, (status, response) => {
-      if (status === naver.maps.Service.Status.ERROR) {
-        return alert('Something Error');
-      }
-
-      const result = response.result;
-      console.log(result.items[0].point.x);
-      setMyLocation({
-        latitude: parseFloat(result.items[0].point.x),
-        longitude: parseFloat(result.items[0].point.y),
-      });
-    });
-  }, []);
-
+function useAbout({ latitude, longitude }: Props) {
   useEffect(() => {
-    if (typeof myLocation !== 'string') {
-      const currentPosition = [myLocation.latitude, myLocation.longitude];
+    const mapScript = document.createElement('script');
 
-      mapRef.current = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
-        zoomControl: true,
+    mapScript.async = true;
+    mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_KEY}&autoload=false`;
+
+    document.head.appendChild(mapScript);
+
+    const onLoadKakaoMap = () => {
+      window.kakao.maps.load(() => {
+        const container = document.getElementById('map');
+        const options = {
+          center: new window.kakao.maps.LatLng(latitude, longitude),
+        };
+        const map = new window.kakao.maps.Map(container, options);
+        const markerPosition = new window.kakao.maps.LatLng(
+          latitude,
+          longitude
+        );
+        const marker = new window.kakao.maps.Marker({
+          position: markerPosition,
+        });
+
+        marker.setMap(map);
       });
-    }
-  }, [myLocation]);
+    }; 
 
-  return {
-    address,
-    myLocation,
-    onChange,
-    onSubmit,
-  };
+    mapScript.addEventListener('load', onLoadKakaoMap);
+
+    return () => {
+      mapScript.removeEventListener('load', onLoadKakaoMap);
+    };
+  }, [latitude, longitude]);
 }
 
 export default useAbout;

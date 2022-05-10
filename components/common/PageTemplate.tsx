@@ -10,7 +10,7 @@ interface SmallProps {
 
 interface Props {
   children: React.ReactNode;
-  aside: React.ReactNode;
+  aside?: React.ReactNode;
 }
 
 const PageTemplate: React.FC<Props> = ({ children, aside }) => {
@@ -21,7 +21,7 @@ const PageTemplate: React.FC<Props> = ({ children, aside }) => {
       <Header />
       <Main small={isSmall}>
         <Content small={isSmall}>{children}</Content>
-        <Aside>{aside}</Aside>
+        {aside && <Aside>{aside}</Aside>}
       </Main>
     </Container>
   );

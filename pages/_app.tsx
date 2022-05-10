@@ -9,6 +9,12 @@ import { ToastContainer } from 'react-toastify';
 import GlobalStyle from '../styles';
 import 'react-toastify/dist/ReactToastify.css';
 
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
 

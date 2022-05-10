@@ -8,20 +8,22 @@ interface Props {
   unit: string;
 }
 
-const MarkerRender: React.FC<Props> = ({ title, distance, unit }) => (
-  <Container>
-    <IconCircle>
-      <GiNightSleep color="#3e5eff" />
-    </IconCircle>
+const MarkerRender: React.FC<Props> = ({ title, distance, unit }: Props) => {
+  return (
+    <Container>
+      <IconCircle>
+        <GiNightSleep color="#3e5eff" />
+      </IconCircle>
 
-    <Content>
-      <div className="title">{title}</div>
-      <div className="dist">
-        {distance} {unit}
-      </div>
-    </Content>
-  </Container>
-);
+      <Content>
+        <div className="title">{title}</div>
+        <div className="dist">
+          {distance} {unit}
+        </div>
+      </Content>
+    </Container>
+  );
+};
 
 // Styles
 const Container = styled.div`

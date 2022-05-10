@@ -1,41 +1,20 @@
 import React, { ChangeEvent, MouseEvent } from 'react';
 import styled from 'styled-components';
+import useAbout from '../../libs/hooks/useAbout';
 
-interface Props {
-  address: string;
-  myLocation:
-    | string
-    | {
-        latitude: number;
-        longitude: number;
-      };
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (e: MouseEvent) => void;
-}
+interface Props {}
 
-const About: React.FC<Props> = ({
-  address,
-  myLocation,
-  onChange,
-  onSubmit,
-}) => (
-  <Container>
-    <h3>주소로 좌표 찾기</h3>
+const About: React.FC<Props> = ({}) => {
+  useAbout({ latitude: 37.53196739, longitude: 126.9783802 });
 
-    <InputGroup>
-      <input type="text" name="address" value={address} onChange={onChange} />
-      <button onClick={onSubmit}>찾기</button>
+  return (
+    <Container>
+      <h3>주소로 좌표 찾기</h3>
 
-      {typeof myLocation !== 'string' && (
-        <span>
-          {myLocation.latitude} {myLocation.longitude}
-        </span>
-      )}
-    </InputGroup>
-
-    <Map id="map"></Map>
-  </Container>
-);
+      <Map id="map"></Map>
+    </Container>
+  );
+};
 
 // Styles
 const Container = styled.div`

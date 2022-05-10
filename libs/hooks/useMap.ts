@@ -13,6 +13,16 @@ function useMap() {
   const markerRef2 = useRef<any | null>(null);
   const markerRef3 = useRef<any | null>(null);
 
+  function getClickHandler(marker: any) {
+    naver.maps.Event.addListener(marker, 'click', (e: any) => {
+      const mapLatLng = new naver.maps.LatLng(
+        markerRef1.current.map.center.x,
+        markerRef1.current.map.center.y
+      );
+      mapRef.current.panTo(mapLatLng, e?.coord);
+    });
+  }
+
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(success, error);
@@ -42,10 +52,25 @@ function useMap() {
         zoomControl: true,
       });
 
+      let infoWindowElement = '<div>Test</div>';
+
+      let infoWindow = new naver.maps.InfoWindow({
+        content: infoWindowElement,
+        borderWidth: 0,
+        disableAnchor: true,
+        backgroundColor: 'transparent',
+        pixelOffset: new naver.maps.Point(0, -28),
+      });
+
       // Marker 찍기
       markerRef1.current = new naver.maps.Marker({
         position: new naver.maps.LatLng(37.533667, 126.9775863),
         map: mapRef.current,
+        icon: {
+          content: '<div>test</div>',
+          size: new naver.maps.Size(38, 58),
+          anchor: new naver.maps.Point(19, 58),
+        },
       });
 
       markerRef2.current = new naver.maps.Marker({
@@ -57,7 +82,16 @@ function useMap() {
         map: mapRef.current,
       });
 
-      console.log(mapRef.current.getBounds());
+      // console.log(mapRef.current.getBounds());
+      // markerRef1.current.map.center.x,
+      // markerRef1.current.map.center.y
+
+      naver.maps.Event.addListener(mapRef.current, 'click', (e: any) => {
+        let latlng = e.latlng;
+        console.log(latlng);
+
+        infoWindow.open(mapRef.current, latlng);
+      });
     }
   }, [myLocation]);
 
