@@ -16,5 +16,5 @@ interface CoordinateType {
   rtlat: number;
   rtlng: number;
   lblat: number;
-  lalng: number;
+  lblng: number;
 }

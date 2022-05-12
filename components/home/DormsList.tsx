@@ -1,4 +1,5 @@
-import React, { ChangeEvent, KeyboardEvent, MouseEvent } from 'react';
+import type { ChangeEvent, KeyboardEvent, MouseEvent } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { FcSpeaker } from 'react-icons/fc';
 import { BiRightArrow } from 'react-icons/bi';
@@ -6,6 +7,7 @@ import Search from '../common/Search';
 import DormCard from './common/DormCard';
 
 interface Props {
+  maps: MapType[];
   search: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onSearch: (e: MouseEvent) => void;
@@ -13,6 +15,7 @@ interface Props {
 }
 
 const DormsList: React.FC<Props> = ({
+  maps,
   search,
   onChange,
   onSearch,
@@ -39,26 +42,14 @@ const DormsList: React.FC<Props> = ({
     </Notice>
 
     <Split>
-      <strong style={{ marginRight: '5px' }}>Dorms</strong> List
+      주변&nbsp;<strong style={{ marginRight: '5px' }}>고시원</strong>
     </Split>
 
     <ContentBox>
-      <DormCard
-        title="컨벤션"
-        distance="100m"
-        address="서울시 용산구 이태원로 22"
-      />
-      <DormCard
-        title="전쟁기념관"
-        distance="125m"
-        address="서울시 용산구 이태원로 22-1"
-      />
-      <DormCard
-        image="/assets/image1.png"
-        title="우리은행"
-        distance="520m"
-        address="서울시 용산구 한강로1가 236-5"
-      />
+      {maps.length > 0 &&
+        maps.map((item) => (
+          <DormCard key={item.id} title={item.name} address={item.address} />
+        ))}
     </ContentBox>
   </Container>
 );

@@ -6,13 +6,14 @@ import useMap from '../libs/hooks/useMap';
 import useSearch from '../libs/hooks/useSearch';
 
 const IndexPage: NextPage = () => {
-  const { myLocation } = useMap();
+  const { myLocation, maps } = useMap();
   const { search, onChange, onSearch, onKeyPress } = useSearch();
 
   return (
     <PageTemplate
       aside={
         <DormsList
+          maps={maps}
           search={search}
           onChange={onChange}
           onSearch={onSearch}

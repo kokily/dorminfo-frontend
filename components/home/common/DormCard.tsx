@@ -4,11 +4,10 @@ import styled from 'styled-components';
 interface Props {
   image?: string;
   title: string;
-  distance: string;
   address: string;
 }
 
-const DormCard: React.FC<Props> = ({ image, title, distance, address }) => (
+const DormCard: React.FC<Props> = ({ image, title, address }) => (
   <Container>
     {image && (
       <ImageBox>
@@ -17,7 +16,7 @@ const DormCard: React.FC<Props> = ({ image, title, distance, address }) => (
     )}
     <Header>
       <Title>{title}</Title>
-      <Distance>{distance}</Distance>
+      <Distance></Distance>
     </Header>
 
     <Address>{address}</Address>
