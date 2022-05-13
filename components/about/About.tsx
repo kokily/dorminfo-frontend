@@ -5,8 +5,6 @@ import useAbout from '../../libs/hooks/useAbout';
 interface Props {}
 
 const About: React.FC<Props> = ({}) => {
-  useAbout({ latitude: 37.53196739, longitude: 126.9783802 });
-
   return (
     <Container>
       <h3>주소로 좌표 찾기</h3>

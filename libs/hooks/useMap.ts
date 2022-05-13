@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
-import qs from 'qs';
+import { useEffect, useRef, useState } from 'react';
 import client from '../api/client';
+import { listMapsAPI } from '../api/maps';
 
 function useMap() {
+  const mapRef = useRef<HTMLElement | null | any>(null);
   const [maps, setMaps] = useState<MapType[]>([]);
   const [myLocation, setMyLocation] = useState<
     | {
@@ -16,40 +17,69 @@ function useMap() {
   let infoWindows: naver.maps.InfoWindow[] = [];
   const contentTags = '<div>여기입니다</div>';
 
-  function success(position: any) {
-    setMyLocation({
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude,
-    });
-  }
-
-  function error() {
-    setMyLocation({ latitude: 37.5114496, longitude: 126.9555199 });
-  }
-
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(success, error);
+      navigator.geolocation.getCurrentPosition((position) => {
+        setMyLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+      });
+    } else {
+      window.alert('현재 위치를 알 수 없어 기본 위치로 지정합니다.');
+      setMyLocation({ latitude: 37.5114496, longitude: 126.9555199 });
     }
-  }, [setMyLocation]);
+  }, []);
 
   useEffect(() => {
-    // API
-    async function getMapsList(query: CoordinateType) {
-      const queryString = qs.stringify(query);
-      const response = await client.get<MapType[]>(`/dorm/list?${queryString}`);
-      return response.data;
-    }
-
     if (typeof myLocation !== 'string') {
       // 현재 위치 추적
       let currentPosition = [myLocation.latitude, myLocation.longitude];
 
       // Naver Map 생성
-      let map = new naver.maps.Map('map', {
+      mapRef.current = new naver.maps.Map('map', {
         center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
         zoomControl: true,
       });
+
+      const coords = mapRef.current.getBounds();
+
+      listMapsAPI({
+        rtlat: coords.maxY(),
+        rtlng: coords.maxX(),
+        lblat: coords.minY(),
+        lblng: coords.minX(),
+      })
+        .then((res) => {
+          if (!res) return console.log('데이터 없음');
+
+          const data = res;
+          setMaps(data);
+
+          // 마커 목록 생성
+          for (let i = 0; i < data.length; i += 1) {
+            const otherMarkers = new naver.maps.Marker({
+              position: new naver.maps.LatLng(
+                data[i].latitude,
+                data[i].longitude
+              ),
+              map: mapRef.current,
+            });
+
+            const infoWindow = new naver.maps.InfoWindow({
+              content: contentTags,
+              borderWidth: 1,
+              anchorSize: new naver.maps.Size(10, 10),
+              pixelOffset: new naver.maps.Point(10, -10),
+            });
+
+            markers.push(otherMarkers);
+            infoWindows.push(infoWindow);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
 
       // Map Function
       function updateMarkers({
@@ -97,50 +127,17 @@ function useMap() {
           if (infoWindow.getMap()) {
             infoWindow.close();
           } else {
-            infoWindow.open(map, marker);
+            infoWindow.open(mapRef.current, marker);
           }
         };
       }
 
-      const coords = map.getBounds();
-
-      getMapsList({
-        rtlat: coords.maxX(),
-        rtlng: coords.maxY(),
-        lblat: coords.minX(),
-        lblng: coords.minY(),
-      })
-        .then((res) => {
-          const data = res;
-          setMaps(data);
-
-          // 마커 목록 생성
-          for (let i = 0; i < data.length; i += 1) {
-            const otherMarkers = new naver.maps.Marker({
-              position: new naver.maps.LatLng(
-                data[i].latitude,
-                data[i].longitude
-              ),
-              map,
-            });
-
-            const infoWindow = new naver.maps.InfoWindow({
-              content: contentTags,
-              borderWidth: 1,
-              anchorSize: new naver.maps.Size(10, 10),
-              pixelOffset: new naver.maps.Point(10, -10),
-            });
-
-            markers.push(otherMarkers);
-            infoWindows.push(infoWindow);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
+      naver.maps.Event.addListener(mapRef.current, 'dragend', () => {
+        setMyLocation({
+          latitude: mapRef.current.center._lat,
+          longitude: mapRef.current.center._lng,
         });
-
-      naver.maps.Event.addListener(map, 'idle', () => {
-        updateMarkers({ isMap: map, isMarkers: markers });
+        updateMarkers({ isMap: mapRef.current, isMarkers: markers });
       });
 
       for (let i = 0; i < markers.length; i += 1) {
