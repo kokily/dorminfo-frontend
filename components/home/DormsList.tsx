@@ -12,6 +12,7 @@ interface Props {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onSearch: (e: MouseEvent) => void;
   onKeyPress: (e: KeyboardEvent<HTMLInputElement> & MouseEvent) => void;
+  markerMove: (id: number, e: any) => void;
 }
 
 const DormsList: React.FC<Props> = ({
@@ -20,6 +21,7 @@ const DormsList: React.FC<Props> = ({
   onChange,
   onSearch,
   onKeyPress,
+  markerMove,
 }) => (
   <Container>
     <Search
@@ -48,7 +50,13 @@ const DormsList: React.FC<Props> = ({
     <ContentBox>
       {maps.length > 0 &&
         maps.map((item) => (
-          <DormCard key={item.id} title={item.name} address={item.address} />
+          <DormCard
+            key={item.id}
+            id={item.id}
+            title={item.name}
+            address={item.address}
+            markerMove={markerMove}
+          />
         ))}
     </ContentBox>
   </Container>

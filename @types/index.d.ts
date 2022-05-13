@@ -10,6 +10,7 @@ interface MapType {
   address: string;
   latitude: number;
   longitude: number;
+  marker?: naver.maps.Marker;
 }
 
 interface CoordinateType {

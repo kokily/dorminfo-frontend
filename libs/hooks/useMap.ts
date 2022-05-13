@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import client from '../api/client';
 import { listMapsAPI } from '../api/maps';
 
 function useMap() {
@@ -15,7 +14,26 @@ function useMap() {
 
   let markers: naver.maps.Marker[] = [];
   let infoWindows: naver.maps.InfoWindow[] = [];
-  const contentTags = '<div>여기입니다</div>';
+  const contentTags = `<div>요기 ${markers[0]}</div>`;
+
+  function markerMove(id: number, e: any) {
+    const targetMarker = maps.find((map) => map.id === id)?.marker;
+    const infoWindow = new naver.maps.InfoWindow({
+      content: contentTags,
+      borderWidth: 1,
+      anchorSize: new naver.maps.Size(10, 10),
+      pixelOffset: new naver.maps.Point(10, -10),
+    });
+
+    if (targetMarker) {
+      if (infoWindow.getMap()) {
+        infoWindow.close();
+      } else {
+        mapRef.current.panTo(targetMarker.getPosition());
+        infoWindow.open(mapRef.current, targetMarker);
+      }
+    }
+  }
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -54,7 +72,7 @@ function useMap() {
           if (!res) return console.log('데이터 없음');
 
           const data = res;
-          setMaps(data);
+          let array: MapType[] = [];
 
           // 마커 목록 생성
           for (let i = 0; i < data.length; i += 1) {
@@ -75,7 +93,28 @@ function useMap() {
 
             markers.push(otherMarkers);
             infoWindows.push(infoWindow);
+            data[i].marker = new naver.maps.Marker({
+              position: new naver.maps.LatLng(
+                data[i].latitude,
+                data[i].longitude
+              ),
+            });
+            array.push(data[i]);
+
+            naver.maps.Event.addListener(otherMarkers, 'click', (e: any) => {
+              const marker = markers[i];
+              const infoWindow = infoWindows[i];
+
+              if (infoWindow.getMap()) {
+                infoWindow.close();
+              } else {
+                mapRef.current.panTo(e.coord);
+                infoWindow.open(mapRef.current, marker);
+              }
+            });
           }
+
+          setMaps(data);
         })
         .catch((e) => {
           console.log(e);
@@ -119,19 +158,6 @@ function useMap() {
         marker.setMap(null);
       }
 
-      function getClickHandler(seq: number) {
-        return () => {
-          const marker = markers[seq];
-          const infoWindow = infoWindows[seq];
-
-          if (infoWindow.getMap()) {
-            infoWindow.close();
-          } else {
-            infoWindow.open(mapRef.current, marker);
-          }
-        };
-      }
-
       naver.maps.Event.addListener(mapRef.current, 'dragend', () => {
         setMyLocation({
           latitude: mapRef.current.center._lat,
@@ -139,16 +165,13 @@ function useMap() {
         });
         updateMarkers({ isMap: mapRef.current, isMarkers: markers });
       });
-
-      for (let i = 0; i < markers.length; i += 1) {
-        naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
-      }
     }
   }, [myLocation]);
 
   return {
     myLocation,
     maps,
+    markerMove,
   };
 }
 

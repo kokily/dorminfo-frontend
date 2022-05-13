@@ -15,8 +15,10 @@ const Aside: React.FC<Props> = ({ children }) => (
 const Container = styled.aside`
   display: flex;
   flex-direction: column;
-  min-width: 320px;
   padding: 0.5rem;
+  max-height: calc(100vh - 64px);
+  min-width: 320px;
+  overflow: scroll;
 `;
 
 const Content = styled.div`

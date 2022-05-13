@@ -6,7 +6,7 @@ import useMap from '../libs/hooks/useMap';
 import useSearch from '../libs/hooks/useSearch';
 
 const IndexPage: NextPage = () => {
-  const { myLocation, maps } = useMap();
+  const { myLocation, maps, markerMove } = useMap();
   const { search, onChange, onSearch, onKeyPress } = useSearch();
 
   return (
@@ -18,6 +18,7 @@ const IndexPage: NextPage = () => {
           onChange={onChange}
           onSearch={onSearch}
           onKeyPress={onKeyPress}
+          markerMove={markerMove}
         />
       }
     >

@@ -3,12 +3,20 @@ import styled from 'styled-components';
 
 interface Props {
   image?: string;
+  id: number;
   title: string;
   address: string;
+  markerMove: (id: number, e: any) => void;
 }
 
-const DormCard: React.FC<Props> = ({ image, title, address }) => (
-  <Container>
+const DormCard: React.FC<Props> = ({
+  image,
+  id,
+  title,
+  address,
+  markerMove,
+}) => (
+  <Container onClick={(e: any) => markerMove(id, e)}>
     {image && (
       <ImageBox>
         <img src={image} alt="" />
