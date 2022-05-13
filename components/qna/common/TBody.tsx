@@ -20,7 +20,7 @@ const TBody: React.FC<Props> = ({}) => (
         <RightSpan>[1]</RightSpan>
       </Title>
       <td>홍길동</td>
-      <td>'22. 5. 14.</td>
+      <td>&apos;22. 5. 14.</td>
     </tr>
   </Container>
 );
