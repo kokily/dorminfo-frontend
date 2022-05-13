@@ -52,6 +52,47 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
     text-decoration: none;
   }
+
+  // Info Window Style
+  .info_container {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border: 2px solid #5e79fc;
+    border-radius: 50px;
+    background: #fff;
+  }
+
+  .icon_circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0.5rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+
+  .info_contents {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0.5rem;
+
+    .title {
+      font-size: 14px;
+      font-weight: bold;
+      margin-top: 0.1rem;
+      margin-bottom: 0.2rem;
+      color: #0168c3;
+      overflow: auto;
+    }
+
+    .address {
+      font-size: 12px;
+      overflow: auto;
+    }
+  }
 `;
 
 export default GlobalStyle;

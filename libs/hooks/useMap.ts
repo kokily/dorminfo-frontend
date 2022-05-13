@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { listMapsAPI, readMapAPI } from '../api/maps';
+import { listMapsAPI } from '../api/maps';
 
 function useMap() {
   const mapRef = useRef<HTMLElement | null | any>(null);
@@ -21,10 +21,12 @@ function useMap() {
     const targetMarker = maps.find((map) => map.id === id)?.marker;
 
     const infoWindow = new naver.maps.InfoWindow({
-      content: `<div><h4>${title}</h4><p>${address}</p></div>`,
-      borderWidth: 1,
-      anchorSize: new naver.maps.Size(10, 10),
-      pixelOffset: new naver.maps.Point(10, -10),
+      content: `<div class="info_container"><div class="icon_circle"><image src="/assets/icon.png" alt="" /></div><div class="info_contents"><div class="title">${title}</div><div class="address">${address}</div></div></div>`,
+      borderWidth: 0,
+      anchorSize: new naver.maps.Size(10, 2),
+      anchorColor: '#5e79fc',
+      pixelOffset: new naver.maps.Point(60, -15),
+      backgroundColor: 'none',
     });
 
     if (targetMarker && targetMap) {
@@ -90,10 +92,12 @@ function useMap() {
             });
 
             const infoWindow = new naver.maps.InfoWindow({
-              content: `<div><h4>${data[i].name}</h4><p>${data[i].address}</p></div>`,
-              borderWidth: 1,
-              anchorSize: new naver.maps.Size(10, 10),
-              pixelOffset: new naver.maps.Point(10, -10),
+              content: `<div class="info_container"><div class="icon_circle"><image src="/assets/icon.png" alt="" /></div><div class="info_contents"><div class="title">${data[i].name}</div><div class="address">${data[i].address}</div></div></div>`,
+              borderWidth: 0,
+              anchorSize: new naver.maps.Size(10, 2),
+              anchorColor: '#5e79fc',
+              pixelOffset: new naver.maps.Point(60, -15),
+              backgroundColor: 'none',
             });
 
             markers.push(otherMarkers);
