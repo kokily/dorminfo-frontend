@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import styled, { css } from 'styled-components';
 import useMedia from '../../libs/hooks/common/useMedia';
 import Aside from './Aside';
@@ -6,6 +7,7 @@ import Header from './Header';
 
 interface SmallProps {
   small: boolean | undefined;
+  qna?: boolean;
 }
 
 interface Props {
@@ -14,12 +16,14 @@ interface Props {
 }
 
 const PageTemplate: React.FC<Props> = ({ children, aside }) => {
+  const router = useRouter();
+  const isQna = router.pathname === '/qna';
   const isSmall = useMedia('(max-width: 768px)');
 
   return (
     <Container>
       <Header />
-      <Main small={isSmall}>
+      <Main small={isSmall} qna={isQna}>
         <Content small={isSmall}>{children}</Content>
         {aside && <Aside>{aside}</Aside>}
       </Main>
@@ -43,6 +47,13 @@ const Main = styled.main<SmallProps>`
     props.small === true &&
     css`
       flex-direction: column;
+    `}
+
+  ${(props) =>
+    props.qna &&
+    css`
+      height: calc(100vh - 56px);
+      background: #5f5f5f;
     `}
 `;
 

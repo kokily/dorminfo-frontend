@@ -1,4 +1,5 @@
-import React, { MouseEvent } from 'react';
+import type { MouseEvent } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 import { shadow } from '../../styles';
 import MenuItem from './MenuItem';
@@ -17,7 +18,7 @@ const MenuList: React.FC<Props> = ({ onClose, visible }) => (
 
           <Split />
 
-          <MenuItem href="/about">설명</MenuItem>
+          <MenuItem href="/qna">문의사항</MenuItem>
         </>
       )}
     </Wrapper>
