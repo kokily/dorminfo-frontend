@@ -1,5 +1,4 @@
 import qs from 'qs';
-import { useQuery } from 'react-query';
 import client from './client';
 
 // 범위 리스트 호출
@@ -13,8 +12,12 @@ export async function listMapsAPI(query: CoordinateType) {
   }
 }
 
-export function useMapsList(query: CoordinateType) {
-  return useQuery(['maps', query], () => listMapsAPI(query), {
-    enabled: true,
-  });
+// 단일 마커 호출
+export async function readMapAPI(id: number) {
+  try {
+    const response = await client.get<MapType>(`/dorm/${id}`);
+    return response.data;
+  } catch (err: any) {
+    console.log(err);
+  }
 }

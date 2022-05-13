@@ -12,7 +12,7 @@ interface Props {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onSearch: (e: MouseEvent) => void;
   onKeyPress: (e: KeyboardEvent<HTMLInputElement> & MouseEvent) => void;
-  markerMove: (id: number, e: any) => void;
+  markerMove: (id: number, title: string, address: string) => void;
 }
 
 const DormsList: React.FC<Props> = ({

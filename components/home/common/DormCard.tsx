@@ -6,7 +6,7 @@ interface Props {
   id: number;
   title: string;
   address: string;
-  markerMove: (id: number, e: any) => void;
+  markerMove: (id: number, title: string, address: string) => void;
 }
 
 const DormCard: React.FC<Props> = ({
@@ -16,7 +16,7 @@ const DormCard: React.FC<Props> = ({
   address,
   markerMove,
 }) => (
-  <Container onClick={(e: any) => markerMove(id, e)}>
+  <Container onClick={() => markerMove(id, title, address)}>
     {image && (
       <ImageBox>
         <img src={image} alt="" />

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { listMapsAPI } from '../api/maps';
+import { listMapsAPI, readMapAPI } from '../api/maps';
 
 function useMap() {
   const mapRef = useRef<HTMLElement | null | any>(null);
@@ -14,18 +14,20 @@ function useMap() {
 
   let markers: naver.maps.Marker[] = [];
   let infoWindows: naver.maps.InfoWindow[] = [];
-  const contentTags = `<div>요기 ${markers[0]}</div>`;
 
-  function markerMove(id: number, e: any) {
+  // List Dorms 클릭 시 해당 위치로 map 중앙 이동
+  function markerMove(id: number, title: string, address: string) {
+    const targetMap = maps.find((map) => map.id === id);
     const targetMarker = maps.find((map) => map.id === id)?.marker;
+
     const infoWindow = new naver.maps.InfoWindow({
-      content: contentTags,
+      content: `<div><h4>${title}</h4><p>${address}</p></div>`,
       borderWidth: 1,
       anchorSize: new naver.maps.Size(10, 10),
       pixelOffset: new naver.maps.Point(10, -10),
     });
 
-    if (targetMarker) {
+    if (targetMarker && targetMap) {
       if (infoWindow.getMap()) {
         infoWindow.close();
       } else {
@@ -36,6 +38,7 @@ function useMap() {
   }
 
   useEffect(() => {
+    // geolocation 이용 현재 위치 확인, 미동의 시 기본 위치로 지정
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         setMyLocation({
@@ -60,8 +63,10 @@ function useMap() {
         zoomControl: true,
       });
 
+      // 현재 map의 Bound 사각형 지역
       const coords = mapRef.current.getBounds();
 
+      // List API
       listMapsAPI({
         rtlat: coords.maxY(),
         rtlng: coords.maxX(),
@@ -85,7 +90,7 @@ function useMap() {
             });
 
             const infoWindow = new naver.maps.InfoWindow({
-              content: contentTags,
+              content: `<div><h4>${data[i].name}</h4><p>${data[i].address}</p></div>`,
               borderWidth: 1,
               anchorSize: new naver.maps.Size(10, 10),
               pixelOffset: new naver.maps.Point(10, -10),
@@ -101,17 +106,22 @@ function useMap() {
             });
             array.push(data[i]);
 
-            naver.maps.Event.addListener(otherMarkers, 'click', (e: any) => {
-              const marker = markers[i];
-              const infoWindow = infoWindows[i];
+            // 마커 클릭시 맵 중심 이동 이벤트
+            naver.maps.Event.addListener(
+              otherMarkers,
+              'click',
+              async (e: any) => {
+                const marker = markers[i];
+                const infoWindow = infoWindows[i];
 
-              if (infoWindow.getMap()) {
-                infoWindow.close();
-              } else {
-                mapRef.current.panTo(e.coord);
-                infoWindow.open(mapRef.current, marker);
+                if (infoWindow.getMap()) {
+                  infoWindow.close();
+                } else {
+                  mapRef.current.panTo(e.coord);
+                  infoWindow.open(mapRef.current, marker);
+                }
               }
-            });
+            );
           }
 
           setMaps(data);
@@ -120,7 +130,7 @@ function useMap() {
           console.log(e);
         });
 
-      // Map Function
+      // 현재 마커 정보 업데이트
       function updateMarkers({
         isMap,
         isMarkers,
@@ -144,6 +154,7 @@ function useMap() {
         }
       }
 
+      // 마커 보여주기
       function showMarker({
         isMap,
         marker,
@@ -154,10 +165,12 @@ function useMap() {
         marker.setMap(isMap);
       }
 
+      // 마커 숨기기
       function hideMarker({ marker }: { marker: naver.maps.Marker }) {
         marker.setMap(null);
       }
 
+      // 마우스 드래그 후 놓았을 때 현재 위치 이동, 마커 업데이트
       naver.maps.Event.addListener(mapRef.current, 'dragend', () => {
         setMyLocation({
           latitude: mapRef.current.center._lat,

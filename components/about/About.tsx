@@ -1,6 +1,5 @@
-import React, { ChangeEvent, MouseEvent } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import useAbout from '../../libs/hooks/useAbout';
 
 interface Props {}
 
