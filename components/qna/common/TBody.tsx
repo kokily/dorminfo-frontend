@@ -55,7 +55,7 @@ const LeftSpan = styled.span`
   .title {
     font-size: 20px;
     font-weight: bold;
-    color: black;
+    color: #000000;
     cursor: pointer;
     transition: 0.21s all;
 
