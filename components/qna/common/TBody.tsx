@@ -9,7 +9,7 @@ const TBody: React.FC<Props> = ({}) => (
       <td>1</td>
       <Title>
         <LeftSpan>
-          <span className="title">
+          <span className="tbody_title">
             브라우저에서 네트워크 오류가 발생하여 문의드립니다
           </span>
           <span className="category">
@@ -52,7 +52,7 @@ const LeftSpan = styled.span`
   justify-content: center;
   margin-left: 1rem;
 
-  .title {
+  .tbody_title {
     font-size: 20px;
     font-weight: bold;
     color: #000000;
