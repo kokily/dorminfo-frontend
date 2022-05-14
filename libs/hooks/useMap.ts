@@ -50,7 +50,7 @@ function useMap() {
       });
     } else {
       window.alert('현재 위치를 알 수 없어 기본 위치로 지정합니다.');
-      setMyLocation({ latitude: 37.5114496, longitude: 126.9555199 });
+      setMyLocation({ latitude: 37.4862618, longitude: 127.1222903 });
     }
   }, []);
 
@@ -63,6 +63,7 @@ function useMap() {
       mapRef.current = new naver.maps.Map('map', {
         center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
         zoomControl: true,
+        zoom: 18,
       });
 
       // 현재 map의 Bound 사각형 지역

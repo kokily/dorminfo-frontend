@@ -21,12 +21,12 @@ function useMedia(mediaQuery: string) {
         }
       };
 
-      mediaQueriesList.addListener(listener);
+      mediaQueriesList.addEventListener('change', listener);
 
       setMatches(mediaQueriesList.matches);
 
       return () => {
-        mediaQueriesList.removeListener(listener);
+        mediaQueriesList.removeEventListener('change', listener);
       };
     }, [mediaQuery, isMounted]);
 

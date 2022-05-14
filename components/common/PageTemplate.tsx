@@ -1,14 +1,9 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import styled, { css } from 'styled-components';
-import useMedia from '../../libs/hooks/common/useMedia';
 import Aside from './Aside';
 import Header from './Header';
-
-interface SmallProps {
-  small: boolean | undefined;
-  qna?: boolean;
-}
+import { media } from '../../styles';
 
 interface Props {
   children: React.ReactNode;
@@ -18,13 +13,12 @@ interface Props {
 const PageTemplate: React.FC<Props> = ({ children, aside }) => {
   const router = useRouter();
   const isQna = router.pathname === '/qna';
-  const isSmall = useMedia('(max-width: 768px)');
 
   return (
     <Container>
       <Header />
-      <Main small={isSmall} qna={isQna}>
-        <Content small={isSmall}>{children}</Content>
+      <Main qna={isQna}>
+        <Content>{children}</Content>
         {aside && <Aside>{aside}</Aside>}
       </Main>
     </Container>
@@ -37,17 +31,16 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const Main = styled.main<SmallProps>`
+const Main = styled.main<{ qna: boolean }>`
   display: flex;
   flex-direction: row;
   padding-top: 0.5rem;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  ${(props) =>
-    props.small === true &&
-    css`
-      flex-direction: column;
-    `}
+
+  ${media.small} {
+    flex-direction: column;
+  }
 
   ${(props) =>
     props.qna &&
@@ -57,17 +50,17 @@ const Main = styled.main<SmallProps>`
     `}
 `;
 
-const Content = styled.div<SmallProps>`
+const Content = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
   min-height: 960px;
-  ${(props) =>
-    props.small === true &&
-    css`
-      min-height: 360px;
-    `}
+
+  ${media.small} {
+    min-height: auto;
+    max-height: 450px;
+  }
 `;
 
 export default PageTemplate;
