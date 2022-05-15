@@ -18,4 +18,5 @@ interface CoordinateType {
   rtlng: number;
   lblat: number;
   lblng: number;
+  search: string | null;
 }

@@ -3,18 +3,19 @@ import { useCallback, useState } from 'react';
 
 function useSearch() {
   const [search, setSearch] = useState('');
+  const [name, setName] = useState('');
 
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      setSearch(e.target.value);
+      setName(e.target.value);
     },
     [search]
   );
 
   const onSearch = useCallback((e: MouseEvent) => {
     e.preventDefault();
-    // Todo...
-    console.log('검색!! ', search);
+
+    setSearch(name);
   }, []);
 
   const onKeyPress = useCallback(
@@ -28,6 +29,7 @@ function useSearch() {
 
   return {
     search,
+    name,
     onChange,
     onSearch,
     onKeyPress,

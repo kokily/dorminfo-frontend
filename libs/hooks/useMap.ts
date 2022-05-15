@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { listMapsAPI } from '../api/maps';
+import useSearch from './useSearch';
 
 function useMap() {
+  const { search, name, onChange, onSearch, onKeyPress } = useSearch();
   const mapRef = useRef<HTMLElement | null | any>(null);
   const [maps, setMaps] = useState<MapType[]>([]);
   const [myLocation, setMyLocation] = useState<
@@ -75,6 +77,7 @@ function useMap() {
         rtlng: coords.maxX(),
         lblat: coords.minY(),
         lblng: coords.minX(),
+        search,
       })
         .then((res) => {
           if (!res) return console.log('데이터 없음');
@@ -184,12 +187,17 @@ function useMap() {
         updateMarkers({ isMap: mapRef.current, isMarkers: markers });
       });
     }
-  }, [myLocation]);
+  }, [myLocation, search]);
 
   return {
     myLocation,
     maps,
     markerMove,
+    search,
+    name,
+    onChange,
+    onSearch,
+    onKeyPress,
   };
 }
 

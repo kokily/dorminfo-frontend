@@ -16,6 +16,32 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <meta charSet="utf-8" />
+        <link rel="shortcut icon" href="/assets/favicon.ico" />
+        <link
+          rel="apple-touch-icon"
+          sizes="152x152"
+          href="/assets/apple-icon-152x152.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/assets/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="96x96"
+          href="/assets/favicon-96x96.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/assets/favicon-16x16.png"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="apple-touch-icon" href="/assets/logo192.png" />
         <title>고시원 정보</title>
       </Head>
 

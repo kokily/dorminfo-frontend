@@ -8,7 +8,7 @@ import DormCard from './common/DormCard';
 
 interface Props {
   maps: MapType[];
-  search: string;
+  name: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onSearch: (e: MouseEvent) => void;
   onKeyPress: (e: KeyboardEvent<HTMLInputElement> & MouseEvent) => void;
@@ -17,7 +17,7 @@ interface Props {
 
 const DormsList: React.FC<Props> = ({
   maps,
-  search,
+  name,
   onChange,
   onSearch,
   onKeyPress,
@@ -25,8 +25,8 @@ const DormsList: React.FC<Props> = ({
 }) => (
   <Container>
     <Search
-      mode="이름으로"
-      title={search}
+      mode="동 검색"
+      title={name}
       onChange={onChange}
       onSearch={onSearch}
       onKeyPress={onKeyPress}
