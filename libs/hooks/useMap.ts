@@ -5,6 +5,7 @@ import useSearch from './useSearch';
 function useMap() {
   const { search, name, onChange, onSearch, onKeyPress } = useSearch();
   const mapRef = useRef<HTMLElement | null | any>(null);
+  const [zoomLevel, setZoomLevel] = useState(16);
   const [maps, setMaps] = useState<MapType[]>([]);
   const [myLocation, setMyLocation] = useState<
     | {
@@ -65,9 +66,18 @@ function useMap() {
       mapRef.current = new naver.maps.Map('map', {
         center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
         zoomControl: true,
-        zoom: 18,
+        zoom: zoomLevel,
       });
 
+      // 확대 및 축소 후 이동 시 줌 레벨 고정
+      naver.maps.Event.addListener(mapRef.current, 'zoom_changed', (zoom) => {
+        setZoomLevel(zoom);
+      });
+    }
+  }, [myLocation]);
+
+  useEffect(() => {
+    if (typeof myLocation !== 'string') {
       // 현재 map의 Bound 사각형 지역
       const coords = mapRef.current.getBounds();
 
