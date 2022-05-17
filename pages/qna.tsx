@@ -1,5 +1,4 @@
-import type { NextPage, GetServerSideProps } from 'next';
-import { dehydrate, QueryClient } from 'react-query';
+import type { NextPage } from 'next';
 import PageTemplate from '../components/common/PageTemplate';
 import Qna from '../components/qna/Qna';
 
@@ -11,6 +10,7 @@ const QnaPage: NextPage = () => {
   );
 };
 
+/*
 export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
 
@@ -22,5 +22,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     },
   };
 };
+*/
 
 export default QnaPage;
