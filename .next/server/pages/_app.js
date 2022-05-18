@@ -4,7 +4,7 @@ exports.id = 888;
 exports.ids = [888];
 exports.modules = {
 
-/***/ 602:
+/***/ 274:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -21,9 +21,8 @@ var external_react_ = __webpack_require__(689);
 ;// CONCATENATED MODULE: external "next/head"
 const head_namespaceObject = require("next/head");
 var head_default = /*#__PURE__*/__webpack_require__.n(head_namespaceObject);
-;// CONCATENATED MODULE: external "next/script"
-const script_namespaceObject = require("next/script");
-var script_default = /*#__PURE__*/__webpack_require__.n(script_namespaceObject);
+// EXTERNAL MODULE: external "next/router"
+var router_ = __webpack_require__(853);
 // EXTERNAL MODULE: external "react/jsx-runtime"
 var jsx_runtime_ = __webpack_require__(997);
 ;// CONCATENATED MODULE: ./libs/context/UserContext.tsx
@@ -54,6 +53,12 @@ const external_react_query_namespaceObject = require("react-query");
 const devtools_namespaceObject = require("react-query/devtools");
 ;// CONCATENATED MODULE: external "react-toastify"
 const external_react_toastify_namespaceObject = require("react-toastify");
+;// CONCATENATED MODULE: ./libs/ga.ts
+function pageView(url) {
+  window.gtag('config', process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID, {
+    page_path: url
+  });
+}
 // EXTERNAL MODULE: ./styles/index.ts
 var styles = __webpack_require__(137);
 // EXTERNAL MODULE: ./node_modules/react-toastify/dist/ReactToastify.css
@@ -78,6 +83,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 function MyApp({
   Component,
   pageProps
@@ -85,6 +91,17 @@ function MyApp({
   const {
     0: queryClient
   } = (0,external_react_.useState)(() => new external_react_query_namespaceObject.QueryClient());
+  const router = (0,router_.useRouter)();
+  (0,external_react_.useEffect)(() => {
+    function handleRouteChange(url) {
+      pageView(url);
+    }
+
+    router.events.on('routeChangeComplete', handleRouteChange);
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
   return /*#__PURE__*/(0,jsx_runtime_.jsxs)(jsx_runtime_.Fragment, {
     children: [/*#__PURE__*/(0,jsx_runtime_.jsxs)((head_default()), {
       children: [/*#__PURE__*/jsx_runtime_.jsx("meta", {
@@ -120,9 +137,6 @@ function MyApp({
       }), /*#__PURE__*/jsx_runtime_.jsx("title", {
         children: "\uACE0\uC2DC\uC6D0 \uC815\uBCF4"
       })]
-    }), /*#__PURE__*/jsx_runtime_.jsx((script_default()), {
-      strategy: "beforeInteractive",
-      src: `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${"qqxeo9xs35"}`
     }), /*#__PURE__*/jsx_runtime_.jsx(styles/* default */.ZP, {}), /*#__PURE__*/jsx_runtime_.jsx(UserContextProvider, {
       children: /*#__PURE__*/(0,jsx_runtime_.jsxs)(external_react_query_namespaceObject.QueryClientProvider, {
         client: queryClient,
@@ -148,6 +162,14 @@ function MyApp({
 /***/ (() => {
 
 
+
+/***/ }),
+
+/***/ 853:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("next/router");
 
 /***/ }),
 
@@ -182,7 +204,7 @@ module.exports = require("styled-components");
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [137], () => (__webpack_exec__(602)));
+var __webpack_exports__ = __webpack_require__.X(0, [137], () => (__webpack_exec__(274)));
 module.exports = __webpack_exports__;
 
 })();

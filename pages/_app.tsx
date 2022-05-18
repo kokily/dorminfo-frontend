@@ -1,16 +1,30 @@
 import type { AppProps } from 'next/app';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import Script from 'next/script';
+import { useRouter } from 'next/router';
 import { UserContextProvider } from '../libs/context/UserContext';
 import { QueryClientProvider, QueryClient, Hydrate } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ToastContainer } from 'react-toastify';
+import * as ga from '../libs/ga';
 import GlobalStyle from '../styles';
 import 'react-toastify/dist/ReactToastify.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
+  const router = useRouter();
+
+  useEffect(() => {
+    function handleRouteChange(url: URL) {
+      ga.pageView(url);
+    }
+
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
 
   return (
     <>
@@ -44,11 +58,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="apple-touch-icon" href="/assets/logo192.png" />
         <title>고시원 정보</title>
       </Head>
-
-      <Script
-        strategy="beforeInteractive"
-        src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_MAP_KEY}`}
-      ></Script>
 
       <GlobalStyle />
 

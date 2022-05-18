@@ -1,5 +1,6 @@
 import type { DocumentContext, DocumentInitialProps } from 'next/document';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Script from 'next/script';
 import { ServerStyleSheet } from 'styled-components';
 
 class MyDocument extends Document {
@@ -34,7 +35,32 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head />
+        <Head>
+          <Script
+            strategy="beforeInteractive"
+            src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_MAP_KEY}`}
+            id="naver_map"
+          />
+          <Script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID}`}
+            id="google_analytics"
+          />
+          <Script
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', '${process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID}', {
+                  page_path: window.location.pathname,
+                });
+              `,
+            }}
+            id="google_gtag"
+          />
+        </Head>
         <body>
           <Main />
           <NextScript />
