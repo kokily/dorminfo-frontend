@@ -28,4 +28,5 @@ yarn-error.log*
 *.tsbuildinfo
 
 # build next
-.next
+/.next/
+/out/
