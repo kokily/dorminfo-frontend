@@ -4,7 +4,7 @@ exports.id = 888;
 exports.ids = [888];
 exports.modules = {
 
-/***/ 274:
+/***/ 88:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -21,6 +21,9 @@ var external_react_ = __webpack_require__(689);
 ;// CONCATENATED MODULE: external "next/head"
 const head_namespaceObject = require("next/head");
 var head_default = /*#__PURE__*/__webpack_require__.n(head_namespaceObject);
+;// CONCATENATED MODULE: external "next/script"
+const script_namespaceObject = require("next/script");
+var script_default = /*#__PURE__*/__webpack_require__.n(script_namespaceObject);
 // EXTERNAL MODULE: external "next/router"
 var router_ = __webpack_require__(853);
 // EXTERNAL MODULE: external "react/jsx-runtime"
@@ -69,6 +72,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -137,6 +141,27 @@ function MyApp({
       }), /*#__PURE__*/jsx_runtime_.jsx("title", {
         children: "\uACE0\uC2DC\uC6D0 \uC815\uBCF4"
       })]
+    }), /*#__PURE__*/jsx_runtime_.jsx((script_default()), {
+      id: "navermap",
+      strategy: "beforeInteractive",
+      src: `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${"qqxeo9xs35"}`
+    }), /*#__PURE__*/jsx_runtime_.jsx((script_default()), {
+      async: true,
+      id: "google_analytics",
+      src: `https://www.googletagmanager.com/gtag/js?id=${"G-XDYSFMKECD"}`
+    }), /*#__PURE__*/jsx_runtime_.jsx((script_default()), {
+      id: "google_tag",
+      dangerouslySetInnerHTML: {
+        __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', '${"G-XDYSFMKECD"}', {
+                  page_path: window.location.pathname,
+                });
+              `
+      }
     }), /*#__PURE__*/jsx_runtime_.jsx(styles/* default */.ZP, {}), /*#__PURE__*/jsx_runtime_.jsx(UserContextProvider, {
       children: /*#__PURE__*/(0,jsx_runtime_.jsxs)(external_react_query_namespaceObject.QueryClientProvider, {
         client: queryClient,
@@ -204,7 +229,7 @@ module.exports = require("styled-components");
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [137], () => (__webpack_exec__(274)));
+var __webpack_exports__ = __webpack_require__.X(0, [137], () => (__webpack_exec__(88)));
 module.exports = __webpack_exports__;
 
 })();

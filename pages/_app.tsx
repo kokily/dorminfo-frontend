@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
+import Script from 'next/script';
 import { useRouter } from 'next/router';
 import { UserContextProvider } from '../libs/context/UserContext';
 import { QueryClientProvider, QueryClient, Hydrate } from 'react-query';
@@ -58,6 +59,31 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="apple-touch-icon" href="/assets/logo192.png" />
         <title>고시원 정보</title>
       </Head>
+
+      <Script
+        id="navermap"
+        strategy="beforeInteractive"
+        src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_MAP_KEY}`}
+      ></Script>
+      <Script
+        async
+        id="google_analytics"
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID}`}
+      ></Script>
+      <Script
+        id="google_tag"
+        dangerouslySetInnerHTML={{
+          __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID}', {
+                  page_path: window.location.pathname,
+                });
+              `,
+        }}
+      ></Script>
 
       <GlobalStyle />
 
