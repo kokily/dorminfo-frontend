@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { media } from '../../../styles';
 
 interface Props {}
 
@@ -38,11 +39,21 @@ const Container = styled.tbody`
       background: #ebdcdc;
     }
   }
+
+  td {
+    ${media.small} {
+      font-size: 13px;
+    }
+  }
 `;
 
 const Title = styled.td`
   display: flex;
   word-break: break-all;
+
+  ${media.small} {
+    font-size: 13px;
+  }
 `;
 
 const LeftSpan = styled.span`
@@ -55,9 +66,15 @@ const LeftSpan = styled.span`
   .tbody_title {
     font-size: 20px;
     font-weight: bold;
+    text-align: left;
     color: #000000;
     cursor: pointer;
     transition: 0.21s all;
+
+    ${media.small} {
+      font-size: 13px;
+      padding-top: 0.5rem;
+    }
 
     &:hover {
       color: #001ccf;
@@ -72,6 +89,10 @@ const LeftSpan = styled.span`
     height: 100%;
     color: red;
     margin-left: 0.4rem;
+
+    ${media.small} {
+      padding-bottom: 0.5rem;
+    }
 
     .box {
       display: inline-flex;

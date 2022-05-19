@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { media } from '../../../styles';
 
 function THeader() {
   return (
@@ -22,6 +23,10 @@ const Container = styled.thead`
 
   th {
     padding: 4px 0 4px 0;
+
+    ${media.small} {
+      font-size: 13px;
+    }
   }
 `;
 

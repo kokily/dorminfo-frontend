@@ -34,14 +34,19 @@ const DormsList: React.FC<Props> = ({
 
     <h2>고시원 목록</h2>
 
+    {/*
     <Notice>
+      
       <span>
         <FcSpeaker /> 공지사항: 쏼라
       </span>
+   
+
       <span>
         <BiRightArrow />
       </span>
     </Notice>
+       */}
 
     <Split>
       주변&nbsp;<strong style={{ marginRight: '5px' }}>고시원</strong>
@@ -70,7 +75,7 @@ const Container = styled.div`
 
   h2 {
     color: #335a94;
-    margin: 0.5rem;
+    margin: 1rem;
   }
 `;
 

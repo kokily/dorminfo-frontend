@@ -9,23 +9,20 @@ function useSearch() {
     (e: ChangeEvent<HTMLInputElement>) => {
       setName(e.target.value);
     },
-    [search]
+    [name]
   );
 
-  const onSearch = useCallback((e: MouseEvent) => {
+  const onSearch = (e: MouseEvent) => {
     e.preventDefault();
 
     setSearch(name);
-  }, []);
-
-  const onKeyPress = useCallback(
-    (e: KeyboardEvent<HTMLInputElement> & MouseEvent) => {
-      if (e.key === 'Enter') {
-        onSearch(e);
-      }
-    },
-    []
-  );
+  };
+  
+  const onKeyPress = (e: KeyboardEvent<HTMLInputElement> & MouseEvent) => {
+    if (e.key === 'Enter') {
+      onSearch(e);
+    }
+  };
 
   return {
     search,

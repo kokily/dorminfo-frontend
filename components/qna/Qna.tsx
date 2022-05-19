@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { media } from '../../styles';
 import TBody from './common/TBody';
 import THeader from './common/THeader';
 
@@ -43,6 +44,10 @@ const Container = styled.div`
 const Contents = styled.div`
   width: 1200px;
   color: white;
+
+  ${media.large} {
+    width: 95%;
+  }
 
   table {
     table-layout: fixed;
